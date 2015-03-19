@@ -6,6 +6,7 @@ public class CosineCharNgramVectorMeasurer extends SimilarityMeasurer {
 	int n;
 	HashMap<String, Double> ngramWeights;
 
+	//I think this metric is pretty bad
 	public CosineCharNgramVectorMeasurer(int n) {
 		this.n = n;
 		ngramWeights = new HashMap<String, Double>();

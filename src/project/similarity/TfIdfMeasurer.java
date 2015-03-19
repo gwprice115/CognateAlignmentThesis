@@ -558,6 +558,7 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 			BufferedReader br1 = new BufferedReader(new FileReader(inputFile));
 			String next = "";
 			while((next = br1.readLine()) != null){
+				next = next.toLowerCase();
 				String[] params = next.split("\t\t");
 				HashMap<String,Double> defVector = new HashMap<String,Double>();
 				for(String word : params[1].split(" ")) {

@@ -11,7 +11,7 @@ public abstract class SimilarityMeasurer {
 
 	abstract double getWordSimilarityValue(String word1, String word2);
 
-	String isolateLex(String line) {
+	static String isolateLex(String line) {
 		return line.split("\t\t")[0];
 	}
 
@@ -37,10 +37,10 @@ public abstract class SimilarityMeasurer {
 			BufferedReader br2 = new BufferedReader(new FileReader(inputFile2));
 			String line = "";
 			while((line = br1.readLine()) != null){
-				file1lines.add(line);
+				file1lines.add(line.toLowerCase());
 			}
 			while((line = br2.readLine()) != null){
-				file2lines.add(line);
+				file2lines.add(line.toLowerCase());
 			}
 			br1.close();
 			br2.close();
@@ -48,9 +48,21 @@ public abstract class SimilarityMeasurer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		int i = 0;
+		int file1Line = 0;
 		for(String line1 : file1lines) {
+			file1Line++;
+			int file2Line = 0;
 			for(String line2 : file2lines) {
+				file2Line++;
+				if(file1Line == 558 && file2Line == 1650) {
+					System.out.println("HERE I AM");
+				}
+				i++;
 				double sim = getWordSimilarityValue(line1,line2);
+				if(i % 100000 == 0) {
+					System.out.println("Iterating through all pairs: " + (i / 100000) + " of " + (file1lines.size() * file2lines.size() / 100000));
+				}
 				if(sim >= threshold) {
 					try {
 						logValue(alignmentTable,isolateLex(line1),isolateLex(line2),sim);
@@ -60,6 +72,9 @@ public abstract class SimilarityMeasurer {
 					}
 				}
 			}
+		}
+		if(alignmentTable.get("lukaka").keySet().contains("engaka")) {
+			System.out.println("WE MADE IT");
 		}
 		return alignmentTable;
 	}
@@ -78,7 +93,7 @@ public abstract class SimilarityMeasurer {
 		}
 		level2.put(two, sim);
 	}
-	
+
 	/**
 	 * @param allVars the union of these two sets (DO NOT CALL DIRECTLY: THIS STRUCTURE IS REQUIRED TO NOT BREAK tfidfMeasurer)
 	 * @param vec1
@@ -103,17 +118,17 @@ public abstract class SimilarityMeasurer {
 		}
 		return product/(Math.sqrt(square1)*Math.sqrt(square2));
 	}
-	
+
 	static double vectorCosine(HashMap<String, Double> vec1, HashMap<String, Double> vec2) {
 		return vectorCosine(vectorUnion(vec1,vec2),vec1,vec2);
 	}
-	
+
 	static HashSet<String> vectorUnion(HashMap<String, Double> vec1, HashMap<String, Double> vec2) {
 		HashSet<String> union = new HashSet<String>();
 		union.addAll(vec1.keySet());
 		union.addAll(vec2.keySet());
 		return union;
 	}
-	
+
 
 }

@@ -33,7 +33,7 @@ public class NumConsonantNgramsInCommonMeasurer extends SimilarityMeasurer {
 				}
 			}
 		}
-		return gramCounter;
+		return gramCounter / ((one.length() + two.length())/2);
 	}
 
 	private static String removeVowels(String word) {

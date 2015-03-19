@@ -26,7 +26,7 @@ public class NumCharNgramsInCommonMeasurer extends SimilarityMeasurer {
 				}
 			}
 		}
-		return gramCounter;
+		return gramCounter / ((one.length() + two.length())/2);
 	}
 	
 //	public static void main(String[] args) {
