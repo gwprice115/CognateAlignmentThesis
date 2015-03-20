@@ -76,13 +76,38 @@ public class SingleAlignment implements Comparable<SingleAlignment> {
 		this.word2 = word2;
 	}
 
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "SingleAlignment [key=" + key + ", word1=" + word1 + ", word2="
+				+ word2 + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((word1 == null) ? 0 : word1.hashCode());
+		result = prime * result + ((word2 == null) ? 0 : word2.hashCode());
+		return result;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 * Returns true if the two words are identical, even if the keys are different
 	 */
 	@Override
 	public boolean equals(Object obj) {
+		
+//		if(word1.equalsIgnoreCase("lukaka") && word2.equalsIgnoreCase("engaka")) {
+//			System.out.println("HI WE'RE IN EQUALS");
+//		}
 		if(obj == this) {
 			return true;
 		}
@@ -94,15 +119,6 @@ public class SingleAlignment implements Comparable<SingleAlignment> {
 		SingleAlignment other = (SingleAlignment) obj;
 		
 		return word1.equalsIgnoreCase(other.getWord1()) && word2.equalsIgnoreCase(other.getWord2());
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "SingleAlignment [key=" + key + ", word1=" + word1 + ", word2="
-				+ word2 + "]";
 	}
 
 }

@@ -11,7 +11,7 @@ public abstract class SimilarityMeasurer {
 
 	abstract double getWordSimilarityValue(String word1, String word2);
 
-	static String isolateLex(String line) {
+	public static String isolateLex(String line) {
 		return line.split("\t\t")[0];
 	}
 
@@ -73,9 +73,9 @@ public abstract class SimilarityMeasurer {
 				}
 			}
 		}
-		if(alignmentTable.get("lukaka").keySet().contains("engaka")) {
-			System.out.println("WE MADE IT");
-		}
+//		if(alignmentTable.get("lukaka").keySet().contains("engaka")) {
+//			System.out.println("WE MADE IT");
+//		}
 		return alignmentTable;
 	}
 
@@ -89,7 +89,7 @@ public abstract class SimilarityMeasurer {
 			alignmentTable.put(one, level2);
 		}
 		if(level2.containsKey(two)) {
-			//	throw new Exception("Duplicate values in a dictionary: " + one + " ," + two);
+				throw new Exception("Duplicate values in a dictionary: " + one + " ," + two);
 		}
 		level2.put(two, sim);
 	}

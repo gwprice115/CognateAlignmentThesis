@@ -535,8 +535,10 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 	public double getWordSimilarityValue(String line1, String line2) {
 		//NOTE: WHAT TO DO ABOUT PUNCTUATION?? GET RID OF IT???
 		//NOTE: THE CURRENT LAMBDA DOESN'T CREATE A REAL PROBABILITY DISTRIBUTION CUS IT ISN'T FACTORED INTO TOTAL WORD COUNTS OR DOC COUNTS OR ANYTHING
-		//NOTE: SOME WORDS APPEAR TWICE IN THE DICTIONARIES WITH DIFFERENT DEFINITIONS: HASH TABLE OVERWRITES
 		//NOTE: "cause" is used a lot by the Bukusu author: probably a word that gets more attention than it deserves
+		
+		//NO LONGER REQUIRE ANY ATTENTION:
+		//NOTE: SOME WORDS APPEAR TWICE IN THE DICTIONARIES WITH DIFFERENT DEFINITIONS: HASH TABLE OVERWRITES
 		//BUKUSU: endosi = "old cow"
 		//WANGA: itwasi = "old"
 		//WANGA: ikhafu = "cow"

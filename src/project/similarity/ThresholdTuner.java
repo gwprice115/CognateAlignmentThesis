@@ -3,6 +3,7 @@ package project.similarity;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import java.util.Set;
 public class ThresholdTuner {
 
 	SimilarityMeasurer measurer;
-	Set<SingleAlignment> correctAlignments;
+	HashSet<SingleAlignment> correctAlignments;
 	String inputFile1;
 	String inputFile2;
 	double maxPrecision_threshold;
@@ -28,6 +29,13 @@ public class ThresholdTuner {
 	// holds all data for alignments above the threshold (key). I don't think I
 	// need this anymore.
 	HashMap<Double, Double> thresholdMap;
+
+	public ThresholdTuner(SimilarityMeasurer measurer,
+			HashSet<SingleAlignment> correctAlignments, double lowerBound,
+			double upperBound, double increment, String inputFile1,
+			String inputFile2) {
+		this(measurer, correctAlignments, lowerBound, upperBound, increment, inputFile1, inputFile2, false);
+	}
 
 	/**
 	 * @param measurer
@@ -39,9 +47,9 @@ public class ThresholdTuner {
 	 * @param inputFile2
 	 */
 	public ThresholdTuner(SimilarityMeasurer measurer,
-			Set<SingleAlignment> correctAlignments, double lowerBound,
+			HashSet<SingleAlignment> correctAlignments, double lowerBound,
 			double upperBound, double increment, String inputFile1,
-			String inputFile2) {
+			String inputFile2, boolean verbose) {
 		this.measurer = measurer;
 		this.correctAlignments = correctAlignments;
 		this.inputFile1 = inputFile1;
@@ -49,17 +57,17 @@ public class ThresholdTuner {
 
 		HashMap<String, HashMap<String, Double>> table = measurer
 				.calculateLuyiaSimilarities(inputFile1, inputFile2, 0);
-		
-		if(table.get("Lukaka").keySet().contains("Engaka")) {
-			System.out.println("WE MADE IT");
-		}
+
+		//		if(table.get("lukaka").keySet().contains("engaka")) {
+		//			System.out.println("WE MADE IT");
+		//		}
 
 		ArrayList<SingleAlignment> sortedAlignments = new ArrayList<SingleAlignment>();
 		for (String k : table.keySet()) {
 			for (String v : table.get(k).keySet()) {
-//				if(k.equals("Lukaka") && v.equals("Engaka")) {
-//					System.out.println("GooD MORNING");
-//				}
+				//				if(k.equals("Lukaka") && v.equals("Engaka")) {
+				//					System.out.println("GooD MORNING");
+				//				}
 				double prob = table.get(k).get(v);
 				sortedAlignments.add(new SingleAlignment(prob, k, v));
 			}
@@ -75,21 +83,21 @@ public class ThresholdTuner {
 			int index = Collections.binarySearch(sortedAlignments,
 					new SingleAlignment(trialThreshold));
 			index = index < 0 ? (-index - 1) : index; // required to handle if
-														// the item wasn't found
+			// the item wasn't found
 
 			// For reference: allPositives = truePositives + falsePositives
 			// For reference: relevantItems = truePositives + falseNegatives
 
 			double allPositives = sortedAlignments.size() - index; // off-by-one
-																	// error??
+			// error??
 			double truePositives = 0;
 			double relevantItems = correctAlignments.size();
 			for (int i = index; i < sortedAlignments.size(); i++) {
 				SingleAlignment currentAlignment = sortedAlignments.get(i);
-//				if (currentAlignment.equals(new SingleAlignment("Lukaka","Engaka"))) {
-//					System.out.println("HERE");
-//				}
-				if (correctAlignments.contains(currentAlignment)) { //THIS TEST IS FAILING. WHY?????
+				//				if (currentAlignment.equals(new SingleAlignment("lukaka","engaka"))) {
+				//					System.out.println("HERE");
+				//				}
+				if (correctAlignments.contains(currentAlignment)) {
 					truePositives++;
 				}
 			}
@@ -97,10 +105,14 @@ public class ThresholdTuner {
 			double recall = truePositives / relevantItems;
 			double precision = truePositives / allPositives;
 			double f1 = (2 * precision * recall) / (precision + recall);
-			System.out.println("trialThreshold: " + trialThreshold);
-			 System.out.println("precision: " + precision);
-			 System.out.println("recall: " + recall);
-			 System.out.println("f1: " + f1);
+			
+			if(verbose) {
+				System.out.println();
+				System.out.println("trialThreshold: " + trialThreshold);
+				System.out.println("precision: " + precision);
+				System.out.println("recall: " + recall);
+				System.out.println("f1: " + f1);
+			}
 
 			if (precision > maxPrecision) {
 				maxPrecision = precision;

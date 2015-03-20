@@ -75,17 +75,17 @@ public class Orchestrator {
 			e.printStackTrace();
 		} 
 		
-		TfIdfMeasurer tfIdf = new TfIdfMeasurer(stoplist, sentences, inputFile1, inputFile2);
-		ThresholdTuner tuner = new ThresholdTuner(tfIdf, correctAlignments, -1, 1.05, 0.1,
-				inputFile1, inputFile2);
+//		TfIdfMeasurer tfIdf = new TfIdfMeasurer(stoplist, sentences, inputFile1, inputFile2);
+//		ThresholdTuner tfidfTuner = new ThresholdTuner(tfIdf, correctAlignments, -1, 1.05, 0.05,
+//				inputFile1, inputFile2);
 		
-//		CosineCharNgramVectorMeasurer ngrams = new CosineCharNgramVectorMeasurer(2);
-//		ThresholdTuner tuner = new ThresholdTuner(ngrams, correctAlignments, 0, 1.05, 0.1,inputFile1, inputFile2);
+		CosineCharNgramVectorMeasurer ngrams = new CosineCharNgramVectorMeasurer(2);
+		ThresholdTuner ngramsTuner = new ThresholdTuner(ngrams, correctAlignments, -1, 1.05, 0.05,inputFile1, inputFile2, true);
 		
-		System.out.println("TF-IDF:");
-		System.out.println("F1 threshold: " + tuner.getThresholdForF1());
-		System.out.println("Precision threshold: " + tuner.getThresholdForPrecision());
-		System.out.println("Recall threshold: " + tuner.getThresholdForRecall());
+		System.out.println("Ngrams:");
+		System.out.println("F1 threshold: " + ngramsTuner.getThresholdForF1());
+		System.out.println("Precision threshold: " + ngramsTuner.getThresholdForPrecision());
+		System.out.println("Recall threshold: " + ngramsTuner.getThresholdForRecall());
 	}
 	
 }
