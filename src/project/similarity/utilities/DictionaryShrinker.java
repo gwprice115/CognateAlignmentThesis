@@ -13,7 +13,7 @@ import project.similarity.SimilarityMeasurer;
 
 public class DictionaryShrinker {
 
-	private static final int SHRINK_FACTOR = 10; 
+	private static final int SHRINK_FACTOR = 3; 
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

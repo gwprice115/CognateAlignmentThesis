@@ -55,9 +55,9 @@ public abstract class SimilarityMeasurer {
 			int file2Line = 0;
 			for(String line2 : file2lines) {
 				file2Line++;
-				if(file1Line == 558 && file2Line == 1650) {
-					System.out.println("HERE I AM");
-				}
+//				if(file1Line == 558 && file2Line == 1650) {
+//					System.out.println("HERE I AM");
+//				}
 				i++;
 				double sim = getWordSimilarityValue(line1,line2);
 				if(i % 100000 == 0) {

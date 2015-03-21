@@ -1,7 +1,6 @@
 package project.similarity;
 
-import java.util.HashMap;
-
+//MAYBE CONVERT THESE TO JACCARD INDEX INSTEAD OF DIVIDING BY THE AVERAGE
 public class NumCharNgramsInCommonMeasurer extends SimilarityMeasurer {
 	int n;
 

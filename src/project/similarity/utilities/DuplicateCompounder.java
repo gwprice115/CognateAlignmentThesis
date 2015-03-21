@@ -24,7 +24,7 @@ public class DuplicateCompounder implements UtilityInterface {
 				while((line = br.readLine()) != null){
 					line = line.toLowerCase();
 					String lex = SimilarityMeasurer.isolateLex(line);
-					String[] params = line.split("\t\t");
+					String[] params = line.split(T_T);
 					if(dictionaryMap.containsKey(lex)) {
 						String[] oldParams = dictionaryMap.get(lex);
 						String[] largeArray;
@@ -47,7 +47,7 @@ public class DuplicateCompounder implements UtilityInterface {
 					}
 				}
 				br.close();
-				PrintWriter out = new PrintWriter(new FileWriter(dictFile + ".txt"));
+				PrintWriter out = new PrintWriter(new FileWriter(dictFile + TXT));
 				for(String lex : dictionaryMap.keySet()) {
 					String[] total = dictionaryMap.get(lex);
 					StringBuilder entryLine = new StringBuilder();

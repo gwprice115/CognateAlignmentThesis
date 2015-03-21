@@ -38,7 +38,6 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 	public static final String NUMBER = "%NUMBER%";
 	public static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
 	public static final Pattern LETTER = Pattern.compile("[a-z]*");
-	private static final int LAMBDA = 1;
 	private int lineCount;
 	private int wordCount;
 	private HashMap<String, HashMap<String,Double>> defs1;
@@ -104,7 +103,6 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 				HashSet<String> docWords = new HashSet<String>();
 				for(int i = 0; i < procWords.size(); i++){
 					String word = procWords.get(i);
-
 					//count document frequency
 					if(!docWords.contains(word)){
 						Integer hashFreq = docFreq.get(word);
@@ -226,7 +224,7 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 	private double getProb(String word1, String word2){
 		return occVectors.get(word1).get(word2)/((double) wordCount);
 	}
-	
+
 	/**
 	 * gets the cosine similarity measure for these two words using the vector set
 	 * @param word1 the first word
@@ -476,25 +474,25 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 		}
 	}
 
-//	/**
-//	 * prints the ten most similar words for each word, weighting scheme,
-//	 * and similarity measure in the file
-//	 * @param wordsFile the file with the words, weightings, and similarity measure abbreviations
-//	 */
-//	public void calculateWordSimilarities(String wordsFile){
-//		try{
-//			BufferedReader wordsBr = new BufferedReader(new FileReader(wordsFile));
-//			String next = "";
-//			while((next = wordsBr.readLine()) != null){
-//				String[] params = next.split("\\s+");
-//				printMostSim(params[0], params[1], params[2]);
-//			}
-//			wordsBr.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
+	//	/**
+	//	 * prints the ten most similar words for each word, weighting scheme,
+	//	 * and similarity measure in the file
+	//	 * @param wordsFile the file with the words, weightings, and similarity measure abbreviations
+	//	 */
+	//	public void calculateWordSimilarities(String wordsFile){
+	//		try{
+	//			BufferedReader wordsBr = new BufferedReader(new FileReader(wordsFile));
+	//			String next = "";
+	//			while((next = wordsBr.readLine()) != null){
+	//				String[] params = next.split("\\s+");
+	//				printMostSim(params[0], params[1], params[2]);
+	//			}
+	//			wordsBr.close();
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		}
+	//
+	//	}
 
 
 	/**
@@ -533,11 +531,13 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 
 
 	public double getWordSimilarityValue(String line1, String line2) {
+
+		/*
+		 * NO LONGER REQUIRE ANY ATTENTION:
+		 */
 		//NOTE: WHAT TO DO ABOUT PUNCTUATION?? GET RID OF IT???
 		//NOTE: THE CURRENT LAMBDA DOESN'T CREATE A REAL PROBABILITY DISTRIBUTION CUS IT ISN'T FACTORED INTO TOTAL WORD COUNTS OR DOC COUNTS OR ANYTHING
 		//NOTE: "cause" is used a lot by the Bukusu author: probably a word that gets more attention than it deserves
-		
-		//NO LONGER REQUIRE ANY ATTENTION:
 		//NOTE: SOME WORDS APPEAR TWICE IN THE DICTIONARIES WITH DIFFERENT DEFINITIONS: HASH TABLE OVERWRITES
 		//BUKUSU: endosi = "old cow"
 		//WANGA: itwasi = "old"
@@ -571,10 +571,12 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 				for (String word : defVector.keySet()) {
 					//					Double hashTf = defVector.get(word); THIS CASE SHOULD NEVER HAPPEN BCUZ ONLY GOES THROUGH WORDS IN THE SENTENCE
 					//					double tf = hashTf == null ? LAMBDA : hashTf;
-					Integer hashDf = docFreq.get(word);
-					int df = hashDf == null ? LAMBDA : hashDf;
-					double tfidf = defVector.get(word) * (N - Math.log10(df));
-					defVector.put(word, tfidf);
+					Integer hashDf = docFreq.get(word); //THIS CASE SHOULD NEVER HAPPEN BECAUSE ALL WORDS ARE IN THE LAST DOCUMENT
+					int df = hashDf == null ? -1 : hashDf;
+					if (hashDf != null) { //meaning that word was not in the stoplist
+						double tfidf = defVector.get(word) * (N - Math.log10(df));
+						defVector.put(word, tfidf);
+					}
 				}
 				defs.put(params[0],defVector);
 			}
@@ -589,5 +591,5 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 		defs1 = getDefVectors(inputFile1);
 		defs2 = getDefVectors(inputFile2);
 	}
-	
+
 }

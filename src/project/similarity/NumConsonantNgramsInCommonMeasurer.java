@@ -1,6 +1,5 @@
 package project.similarity;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class NumConsonantNgramsInCommonMeasurer extends SimilarityMeasurer {
