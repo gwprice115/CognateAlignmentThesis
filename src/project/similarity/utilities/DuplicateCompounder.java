@@ -8,8 +8,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import project.similarity.SimilarityMeasurer;
 import project.similarity.SingleAlignment;
+import project.similarity.measurers.SimilarityMeasurer;
 
 public class DuplicateCompounder implements UtilityInterface {
 	

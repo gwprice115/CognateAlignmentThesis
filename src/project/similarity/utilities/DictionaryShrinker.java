@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import project.similarity.SimilarityMeasurer;
+import project.similarity.measurers.SimilarityMeasurer;
 
 public class DictionaryShrinker {
 

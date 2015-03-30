@@ -11,7 +11,7 @@
  *
  */
 
-package project.similarity;
+package project.similarity.measurers;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

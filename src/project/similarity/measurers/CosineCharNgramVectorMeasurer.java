@@ -1,4 +1,4 @@
-package project.similarity;
+package project.similarity.measurers;
 
 import java.util.HashMap;
 

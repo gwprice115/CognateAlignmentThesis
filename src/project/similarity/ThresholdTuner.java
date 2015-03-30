@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import project.similarity.measurers.SimilarityMeasurer;
+
 /**
  * You pass in a SimilarityMeasurer and a HashMap of authority alignments and
  * get a weight that maximizes precision, recall, or F1. It will calculate all

@@ -1,10 +1,10 @@
-package project.similarity;
+package project.similarity.measurers;
 
 //MAYBE CONVERT THESE TO JACCARD INDEX INSTEAD OF DIVIDING BY THE AVERAGE
-public class NumCharNgramsInCommonMeasurer extends SimilarityMeasurer {
+public class JaccardCharNgramsInCommonMeasurer extends SimilarityMeasurer {
 	int n;
 
-	public NumCharNgramsInCommonMeasurer(int n) {
+	public JaccardCharNgramsInCommonMeasurer(int n) {
 		this.n = n;
 	}
 	
@@ -15,17 +15,7 @@ public class NumCharNgramsInCommonMeasurer extends SimilarityMeasurer {
 //			System.out.println(n + " is not a valid n-gram size");
 			return -1;
 		}
-		int gramCounter = 0;
-		for(int i = n-1; i < one.length(); i++) {
-			for(int j = n-1; j < two.length(); j++) {
-				String tri1 = one.substring(i-(n-1), i+1);
-				String tri2 = two.substring(j-(n-1), j+1);
-				if(tri1.equals(tri2)) {
-					gramCounter++; //maybe better to implement a precision/recall kind of thing?
-				}
-			}
-		}
-		return gramCounter / ((one.length() + two.length())/2);
+		return getJaccardIndex(one, two, n);
 	}
 	
 //	public static void main(String[] args) {

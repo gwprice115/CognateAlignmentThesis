@@ -1,4 +1,4 @@
-package project.similarity;
+package project.similarity.measurers;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 public abstract class SimilarityMeasurer {
 
-	abstract double getWordSimilarityValue(String word1, String word2);
+	abstract double getWordSimilarityValue(String line1, String line2);
 
 	public static String isolateLex(String line) {
 		return line.split("\t\t")[0];
@@ -22,7 +22,7 @@ public abstract class SimilarityMeasurer {
 	 * @return a HashMap of HashMaps of doubles representing word alignments from input1 to input2 and then a score
 	 * @throws Exception 
 	 */
-	HashMap<String, HashMap<String,Double>> calculateLuyiaSimilarities(
+	public HashMap<String, HashMap<String,Double>> calculateLuyiaSimilarities(
 			String inputFile1,
 			String inputFile2,
 			double threshold) {
@@ -130,5 +130,30 @@ public abstract class SimilarityMeasurer {
 		return union;
 	}
 
+	/**
+	 * Used for character comparison measurers
+	 * @param one
+	 * @param two
+	 * @param n
+	 * @return
+	 */
+	public double getJaccardIndex(String one, String two, int n) {
+		HashSet<String> union = new HashSet<String>();
+		HashSet<String> intersection = new HashSet<String>();
+		for(int i = n-1; i < one.length(); i++) {
+			for(int j = n-1; j < two.length(); j++) {
+				String tri1 = one.substring(i-(n-1), i+1);
+				String tri2 = two.substring(j-(n-1), j+1);
+				union.add(tri1);
+				union.add(tri2);
+				if(tri1.equals(tri2)) {
+					intersection.add(tri1);
+				}
+			}
+		}
+		double intersectionSize = intersection.size();
+		double unionSize = union.size();
+		return intersectionSize / unionSize;
+	}
 
 }

@@ -11,6 +11,6 @@ public interface UtilityInterface {
 	static final String TXT = ".txt";
 	
 	static final String DOUBLE_TAB = "		";
-	static final String T_T = "/t/t";
+	static final String T_T = "\t\t";
 	static final String LITERAL_SPACE = " ";
 }

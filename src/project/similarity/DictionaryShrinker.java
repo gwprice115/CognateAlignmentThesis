@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import project.similarity.measurers.JaccardCharNgramsInCommonMeasurer;
+
 public class DictionaryShrinker {
 
 	public DictionaryShrinker() {
@@ -46,7 +48,7 @@ public class DictionaryShrinker {
 			int i = 0;
 			while((line1 = br1.readLine()) != null){
 				i++;
-				String one = NumCharNgramsInCommonMeasurer.isolateLex(line1).toLowerCase();
+				String one = JaccardCharNgramsInCommonMeasurer.isolateLex(line1).toLowerCase();
 				if(correct1.contains(one) || (i % 2 == 0)) {
 					out1.println(line1);
 				}
@@ -56,7 +58,7 @@ public class DictionaryShrinker {
 			i = 0;
 			while((line2 = br2.readLine()) != null){
 				i++;
-				String two = NumCharNgramsInCommonMeasurer.isolateLex(line2).toLowerCase();
+				String two = JaccardCharNgramsInCommonMeasurer.isolateLex(line2).toLowerCase();
 				if(correct2.contains(two) || (i % 2 == 0)) {
 					out2.println(line2);
 				}

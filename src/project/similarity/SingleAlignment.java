@@ -9,9 +9,9 @@ package project.similarity;
  */
 public class SingleAlignment implements Comparable<SingleAlignment> {
 	
-	Double key;
-	String word1;
-	String word2;
+	private Double key;
+	private String word1;
+	private String word2;
 	
 	/**
 	 * @param key

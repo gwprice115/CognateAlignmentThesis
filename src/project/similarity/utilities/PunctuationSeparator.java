@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
 
-import project.similarity.SimilarityMeasurer;
+import project.similarity.measurers.SimilarityMeasurer;
 
 public class PunctuationSeparator implements UtilityInterface {
 

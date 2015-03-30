@@ -1,5 +1,7 @@
-bin/*
+.gitignore~
+bin/
 data/
 .project
 .settings/
 .classpath
+berkeley_aligner
