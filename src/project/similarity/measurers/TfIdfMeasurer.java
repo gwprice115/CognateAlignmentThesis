@@ -44,6 +44,18 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 	private HashMap<String, HashMap<String,Double>> defs2;
 
 
+	public TfIdfMeasurer() {
+		this("/Users/gwprice/Documents/workspace/CognateAlignmentThesis/data/stoplist",
+				"/Users/gwprice/Documents/workspace/CognateAlignmentThesis/data/sentences",
+				"/Users/gwprice/Desktop/project_data/final_data/Isukha-Idakho.txt",
+				"/Users/gwprice/Desktop/project_data/final_data/Samia-Lugwe.txt");
+	}
+	
+	public TfIdfMeasurer(String dict1, String dict2) {
+		this("/Users/gwprice/Documents/workspace/CognateAlignmentThesis/data/stoplist",
+				"/Users/gwprice/Documents/workspace/CognateAlignmentThesis/data/sentences",dict1,dict2);
+	}
+
 
 
 	/**
@@ -561,6 +573,9 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 			String next = "";
 			while((next = br1.readLine()) != null){
 				next = next.toLowerCase();
+				//				if(next.contains("haya ( ohu )")) {
+				//					System.out.println("I'm a gross fish");
+				//				}
 				String[] params = next.split("\t\t");
 				HashMap<String,Double> defVector = new HashMap<String,Double>();
 				for(String word : params[1].split(" ")) {
@@ -578,7 +593,7 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 						defVector.put(word, tfidf);
 					}
 				}
-				defs.put(params[0],defVector);
+				defs.put(isolateLex(next),defVector);
 			}
 			br1.close();
 		} catch (IOException e) {
@@ -590,6 +605,11 @@ public class TfIdfMeasurer extends SimilarityMeasurer {
 	public void generateVectors(String inputFile1, String inputFile2) {
 		defs1 = getDefVectors(inputFile1);
 		defs2 = getDefVectors(inputFile2);
+	}
+
+	@Override
+	String getDescription() {
+		return "TfIdfMeasurer";
 	}
 
 }

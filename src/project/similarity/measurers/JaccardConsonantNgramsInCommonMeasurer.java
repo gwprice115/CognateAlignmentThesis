@@ -34,4 +34,9 @@ public class JaccardConsonantNgramsInCommonMeasurer extends SimilarityMeasurer {
 		return consonants.toString();
 	}
 
+	@Override
+	String getDescription() {
+		return "JaccardConsonant"+n+"gramsInCommonMeasurer";
+	}
+	
 }

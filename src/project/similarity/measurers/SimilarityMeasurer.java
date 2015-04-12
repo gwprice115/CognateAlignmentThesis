@@ -7,14 +7,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public abstract class SimilarityMeasurer {
+import project.similarity.SingleAlignment;
+import project.similarity.utilities.UtilityInterface;
 
+public abstract class SimilarityMeasurer {
+	
 	abstract double getWordSimilarityValue(String line1, String line2);
+	
+	abstract String getDescription();
+	
 
 	public static String isolateLex(String line) {
-		return line.split("\t\t")[0];
+		return line.split("\t\t")[0].trim().intern(); //just added the trim part
+	}
+	
+	public static String isolateDef(String line) {
+		return line.split("\t\t")[1].trim().intern(); //just added the trim part
 	}
 
+	public ArrayList<SingleAlignment> calculateLuyiaSimilarities(
+			String inputFile1,
+			String inputFile2,
+			double threshold) {
+		return calculateLuyiaSimilarities(inputFile1, inputFile2, threshold, false);
+	}
+	
 	/**
 	 * @param inputFile1 the first Luyia-English dictionary file
 	 * @param inputFile2 the second Luyia-English dictionary file
@@ -22,12 +39,14 @@ public abstract class SimilarityMeasurer {
 	 * @return a HashMap of HashMaps of doubles representing word alignments from input1 to input2 and then a score
 	 * @throws Exception 
 	 */
-	public HashMap<String, HashMap<String,Double>> calculateLuyiaSimilarities(
+//	public HashMap<String, HashMap<String,Double>> calculateLuyiaSimilarities(
+	public ArrayList<SingleAlignment> calculateLuyiaSimilarities(
 			String inputFile1,
 			String inputFile2,
-			double threshold) {
+			double threshold, boolean includeDefinitions) {
 
-		HashMap<String, HashMap<String, Double>> alignmentTable = new HashMap<String, HashMap<String,Double>>();
+//		HashMap<String, HashMap<String, Double>> alignmentTable = new HashMap<String, HashMap<String,Double>>();
+		ArrayList<SingleAlignment> alignmentTable = new ArrayList<SingleAlignment>();
 
 		ArrayList<String> file1lines = new ArrayList<String>();
 		ArrayList<String> file2lines = new ArrayList<String>();
@@ -65,7 +84,12 @@ public abstract class SimilarityMeasurer {
 				}
 				if(sim >= threshold) {
 					try {
-						logValue(alignmentTable,isolateLex(line1),isolateLex(line2),sim);
+						if(includeDefinitions) {
+							logValue(alignmentTable,isolateLex(line1),isolateLex(line2),isolateDef(line1),isolateDef(line2),sim);
+						}
+						else {
+							logValue(alignmentTable,isolateLex(line1),isolateLex(line2),sim);	
+						}
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -78,21 +102,66 @@ public abstract class SimilarityMeasurer {
 //		}
 		return alignmentTable;
 	}
+	
+	public ArrayList<SingleAlignment> calculateLuyiaSimilarities(
+			String inputFile,
+			double threshold) {
 
-	static void logValue(HashMap<String, HashMap<String,Double>> alignmentTable, String one, String two, double sim) throws Exception {
-		HashMap<String,Double> level2;
-		if(alignmentTable.containsKey(one)) {
-			level2 = alignmentTable.get(one);
+//		HashMap<String, HashMap<String, Double>> alignmentTable = new HashMap<String, HashMap<String,Double>>();
+		ArrayList<SingleAlignment> alignmentTable = new ArrayList<SingleAlignment>();
+
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(inputFile));
+			int fileCount = 0;
+			String line = "";
+			while((line = br.readLine()) != null){
+				fileCount++;
+				String[] params = line.split(UtilityInterface.T_T);
+				double sim = getWordSimilarityValue(params[0],params[1]);
+				if(fileCount % 100000 == 0) {
+					System.out.println("Iterating through all pairs: " + (fileCount / 100000) + " of 226");
+				}
+				if(sim >= threshold) {
+					try {
+						logValue(alignmentTable,isolateLex(params[0]),isolateLex(params[1]),sim);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else {
-			level2 = new HashMap<String,Double>();
-			alignmentTable.put(one, level2);
-		}
-		if(level2.containsKey(two)) {
-				throw new Exception("Duplicate values in a dictionary: " + one + " ," + two);
-		}
-		level2.put(two, sim);
+//		if(alignmentTable.get("lukaka").keySet().contains("engaka")) {
+//			System.out.println("WE MADE IT");
+//		}
+		return alignmentTable;
 	}
+
+//	static void logValue(HashMap<String, HashMap<String,Double>> alignmentTable, String one, String two, double sim) throws Exception {
+//		HashMap<String,Double> level2;
+//		if(alignmentTable.containsKey(one)) {
+//			level2 = alignmentTable.get(one);
+//		}
+//		else {
+//			level2 = new HashMap<String,Double>();
+//			alignmentTable.put(one, level2);
+//		}
+//		if(level2.containsKey(two)) {
+//				throw new Exception("Duplicate values in a dictionary: " + one + " ," + two);
+//		}
+//		level2.put(two, sim);
+//	}
+	static void logValue(ArrayList<SingleAlignment> alignmentTable, String one, String two, double sim) throws Exception {
+		alignmentTable.add(new SingleAlignment(sim,one,two));
+	}
+	static void logValue(ArrayList<SingleAlignment> alignmentTable, String one, String two, String def1, String def2, double sim) {
+		alignmentTable.add(new SingleAlignment(sim,one,two,def1,def2));
+	}
+
 
 	/**
 	 * @param allVars the union of these two sets (DO NOT CALL DIRECTLY: THIS STRUCTURE IS REQUIRED TO NOT BREAK tfidfMeasurer)
@@ -154,6 +223,12 @@ public abstract class SimilarityMeasurer {
 		double intersectionSize = intersection.size();
 		double unionSize = union.size();
 		return intersectionSize / unionSize;
+	}
+
+
+	@Override
+	public String toString() {
+		return getDescription();
 	}
 
 }

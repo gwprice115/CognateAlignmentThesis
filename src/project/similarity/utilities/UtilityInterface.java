@@ -1,11 +1,16 @@
 package project.similarity.utilities;
 
 public interface UtilityInterface {
-	static final String[] DICTIONARY_FILES = {"/Users/gwprice/Desktop/project_data/final_data/Samia-Lugwe",
-		"/Users/gwprice/Desktop/project_data/final_data/Isukha-Idakho",
-		"/Users/gwprice/Desktop/project_data/final_data/Tiriki",
-		"/Users/gwprice/Desktop/project_data/final_data/Bukusu",
-		"/Users/gwprice/Desktop/project_data/final_data/Wanga"
+	static final String SL_PATH = "/Users/gwprice/Desktop/project_data/final_data/Samia-Lugwe";
+	static final String II_PATH = "/Users/gwprice/Desktop/project_data/final_data/Isukha-Idakho";
+	static final String T_PATH = "/Users/gwprice/Desktop/project_data/final_data/Tiriki";
+	static final String B_PATH = "/Users/gwprice/Desktop/project_data/final_data/Bukusu";
+	static final String W_PATH = "/Users/gwprice/Desktop/project_data/final_data/Wanga";
+	static final String[] DICTIONARY_FILES = {SL_PATH,
+		II_PATH,
+		T_PATH,
+		B_PATH,
+		W_PATH
 	};//no suffix so dest file names can be generated at runtime
 	
 	static final String TXT = ".txt";

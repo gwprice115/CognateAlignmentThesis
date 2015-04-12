@@ -12,6 +12,8 @@ public class SingleAlignment implements Comparable<SingleAlignment> {
 	private Double key;
 	private String word1;
 	private String word2;
+	private String definition1;
+	private String definition2;
 	
 	/**
 	 * @param key
@@ -32,6 +34,15 @@ public class SingleAlignment implements Comparable<SingleAlignment> {
 	public SingleAlignment(String word1, String word2) {
 		this.word1 = word1;
 		this.word2 = word2;
+	}
+
+	public SingleAlignment(double key, String word1, String word2, String def1,
+			String def2) {
+		this.key = key;
+		this.word1 = word1;
+		this.word2 = word2;
+		this.definition1 = def1;
+		this.definition2 = def2;
 	}
 
 	@Override
@@ -119,6 +130,34 @@ public class SingleAlignment implements Comparable<SingleAlignment> {
 		SingleAlignment other = (SingleAlignment) obj;
 		
 		return word1.equalsIgnoreCase(other.getWord1()) && word2.equalsIgnoreCase(other.getWord2());
+	}
+
+	/**
+	 * @return the definition1
+	 */
+	public String getDefinition1() {
+		return definition1;
+	}
+
+	/**
+	 * @param definition1 the definition1 to set
+	 */
+	public void setDefinition1(String definition1) {
+		this.definition1 = definition1;
+	}
+
+	/**
+	 * @return the definition2
+	 */
+	public String getDefinition2() {
+		return definition2;
+	}
+
+	/**
+	 * @param definition2 the definition2 to set
+	 */
+	public void setDefinition2(String definition2) {
+		this.definition2 = definition2;
 	}
 
 }

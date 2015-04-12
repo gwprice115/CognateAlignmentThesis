@@ -22,5 +22,10 @@ public class JaccardCharNgramsInCommonMeasurer extends SimilarityMeasurer {
 //		NumCharNgramsInCommonMeasurer x = new NumCharNgramsInCommonMeasurer(3);
 //		System.out.println(x.getWordSimilarityValue("Absolutely", "Positively"));
 //	}
+	
+	@Override
+	String getDescription() {
+		return "JaccardChar"+n+"gramsInCommonMeasurer";
+	}
 
 }

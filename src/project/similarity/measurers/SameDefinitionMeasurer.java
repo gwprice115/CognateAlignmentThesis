@@ -43,4 +43,9 @@ public class SameDefinitionMeasurer extends SimilarityMeasurer {
 		else
 			return 0;
 	}
+	
+	@Override
+	String getDescription() {
+		return "SameDefinitionMeasurer";
+	}
 }

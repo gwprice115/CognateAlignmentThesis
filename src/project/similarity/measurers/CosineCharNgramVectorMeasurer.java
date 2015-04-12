@@ -26,8 +26,8 @@ public class CosineCharNgramVectorMeasurer extends SimilarityMeasurer {
 		HashMap<String, Double> vector1 = new  HashMap<String, Double>();
 		HashMap<String, Double> vector2 = new  HashMap<String, Double>();
 		
-		String one = isolateLex(line1).toLowerCase();
-		String two = isolateLex(line2).toLowerCase();
+		String one = isolateLex(line1.toLowerCase());
+		String two = isolateLex(line2.toLowerCase());
 		if(n < 1 || n > one.length() || n > two.length()) {
 //			System.out.println(n + " is not a valid n-gram size");
 			return -1;
@@ -62,5 +62,10 @@ public class CosineCharNgramVectorMeasurer extends SimilarityMeasurer {
 		}
 		vector.put(ngram, weightedCount + getWeight(ngram));
 		return vector.get(ngram);
+	}
+
+	@Override
+	String getDescription() {
+		return "CosineChar"+n+"gramVectorMeasurer";
 	}
 }
