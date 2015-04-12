@@ -42,7 +42,6 @@ tenthUpper = 0
 for section in range(10) :
 	make_sure_path_exists(outFile + str(section) + "_10")
 	make_sure_path_exists(outFile + str(section) + "_90")
-	make_sure_path_exists(outFile + str(section) + "_10/output")
 	make_sure_path_exists(outFile + str(section) + "_90/output")
 	tenLangOneF = open(outFile + str(section) + "_10/data" + englishSuffix, "w")
 	tenLangTwoF = open(outFile + str(section) + "_10/data" + foreignSuffix, "w")
@@ -66,6 +65,10 @@ for section in range(10) :
 			ninetyLangOneF.write(wordOne)
 			ninetyLangTwoF.write(wordTwo)
 		i = i+1
+	with open("/Users/gwprice/Documents/workspace/CognateAlignmentThesis/python_scripts/allngrams/all"+str(n)+"grams.txt","r") as gramsFile :
+		for l in gramsFile :
+			ninetyLangOneF.write(l)
+			ninetyLangTwoF.write(l)
 
 	tenLangOneF.close()
 	tenLangTwoF.close()
